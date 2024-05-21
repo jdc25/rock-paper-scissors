@@ -26,17 +26,42 @@ def evaluate_game(user_choice, computer_choice):
     }
 
     if user_choice == computer_choice:
-        return f"Both chose {user_choice}. It's a draw!"
+        return "draw"
     else:
-        return outcomes.get((user_choice, computer_choice))
+        return "win" if outcomes.get((user_choice, computer_choice)) else "lose"
 
 def play_rps():
-    """Play a round of Rock Paper Scissors."""
-    user_choice = get_user_choice()
-    computer_choice = generate_computer_choice()
-    print(f"The computer chose: {computer_choice}")
-    result = evaluate_game(user_choice, computer_choice)
-    print(result)
+    """Best of three."""
+    print("Welcome to Rock Paper Scissors! The game is best of three rounds.")
+    user_wins = 0
+    computer_wins = 0
+    
+    # Loop for playing until one player wins two rounds
+    while user_wins < 2 and computer_wins < 2:
+        user_choice = get_user_choice()
+        computer_choice = generate_computer_choice()
+        print(f"The computer chose: {computer_choice}")
+        result = evaluate_game(user_choice, computer_choice)
+
+        # Update score based on the result of the round
+        if result == "win":
+            user_wins += 1
+            print("You win!")
+        elif result == "lose":
+            computer_wins += 1
+            print("Computer wins!")
+        else:
+            print("Draw!")
+
+        # Display the score after each round
+        print(f"Score: You -{user_wins}, Computer -{computer_wins}")
+    
+    # Determine the winner of the game
+    print("\nGame over!")
+    if user_wins > computer_wins:
+        print("You win the game!")
+    else:
+        print("Computer wins the game!")
 
 if __name__ == "__main__":
     play_rps()
